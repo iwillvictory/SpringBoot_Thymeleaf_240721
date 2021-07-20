@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Show Products</title>
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container text-center">
+    <div><h1>List Of Products</h1></div>
+    <div>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Details</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="product : ${products}">
+                    <tr>
+                        <td>[[${product.id}]]</td>
+                        <td>[[${product.name}]]</td>
+                        <td>[[${product.price}]]</td>
+                        <td>[[${product.category.name}]]</td>
+                        <td>[[${product.listDetails}]]</td>
+                        <td>
+                            <a th:href="@{|/products/edit/${product.id}|}" class="pr-3" >Edit</a>
+                            <a th:href="@{|/products/delete/${product.id}|}" >Delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
