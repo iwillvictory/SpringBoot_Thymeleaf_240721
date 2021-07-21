@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="layout/fragments :: html_header">
     <meta charset="ISO-8859-1">
     <title>Create new Category</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
     <div class="container text-center">
+        <!--        Start Menu  -->
+        <div th:replace="layout/fragments :: html_menu">Header Static</div>
+        <!--        End Menu    -->
+
         <div><h1>Create New Category</h1></div>
         <form th:action="@{/categories/save}" method="post" th:object="${category}" style="max-width: 600px; margin: 0 auto;">
             <div class="form-group row">
@@ -23,6 +27,8 @@
 
     </div>
 
-
+    <!--     Start Footer-->
+    <div th:replace="layout/fragments :: html_footer">Footer Static</div>
+    <!--     End Footer   -->
 </body>
 </html>

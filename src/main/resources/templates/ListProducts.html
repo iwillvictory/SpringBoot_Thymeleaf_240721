@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="layout/fragments :: html_header">
     <meta charset="ISO-8859-1">
     <title>Show Products</title>
     <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="container text-center">
-    <div><h1>List Of Products</h1></div>
+<div class="container">
+    <div th:replace="layout/fragments :: html_menu">Header Static</div>
     <div>
-        <table class="table">
-            <thead class="thead-light">
+        <h2>List Of Products</h2></div>
+        <a href=""> Creat new Product</a> &nbsp;|&nbsp; <a href="">Export to CSV</a>
+    <div>
+        <table class="table table-hover table-striped text-left">
+            <thead class="thead-dark text-center">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -26,7 +29,7 @@
                     <tr>
                         <td>[[${product.id}]]</td>
                         <td>[[${product.name}]]</td>
-                        <td>[[${product.price}]]</td>
+                        <td class="text-right">[[${product.price}]]</td>
                         <td>[[${product.category.name}]]</td>
                         <td>[[${product.listDetails}]]</td>
                         <td>
@@ -38,6 +41,8 @@
             </tbody>
         </table>
     </div>
+
+    <div th:replace="layout/fragments :: html_footer">Footer Static</div>
 
 </div>
 

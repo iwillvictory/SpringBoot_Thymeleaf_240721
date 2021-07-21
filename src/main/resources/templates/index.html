@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="layout/fragments :: html_header">
     <meta charset="UTF-8">
     <title>Inventory Homepage</title>
-    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/fontawesome/css/all.css}"/>
 </head>
 <body>
 <div class="container text-center">
+    <!--    Start menu-->
+    <div th:replace="layout/fragments :: html_menu"></div>
+    <!--    End menu-->
     <div><h1>Welcome to Inventory App</h1></div>
     <div class="p-2">
         <a class="h2" th:href="@{/categories}">List Categories</a>
@@ -20,6 +24,10 @@
     <div class="p-2">
         <a class="h2" th:href="@{/products/new}">Create Product</a>
     </div>
+
+    <!--    Start footer-->
+    <div th:replace="layout/fragments :: html_footer"></div>
+    <!--    End footer-->
 </div>
 
 </body>
