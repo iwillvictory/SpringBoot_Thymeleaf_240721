@@ -40,6 +40,40 @@
                 </th:block>
             </tbody>
         </table>
+        <!--        Start Pagination    -->
+        <div th:insert="layout/fragments :: pagination">
+            <ul class="pagination justify-content-center" style="margin-top:20px; margin-left: 20px" th:fragment="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Last</a>
+                </li>
+
+            </ul>
+        </div>
+        <!--        End Pagination-->
     </div>
 
     <div th:replace="layout/fragments :: html_footer">Footer Static</div>

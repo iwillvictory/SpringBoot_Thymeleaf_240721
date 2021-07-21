@@ -7,6 +7,10 @@ import nbq.springboot.thymeleaf.lesson3.repositories.CategoryRepository;
 import nbq.springboot.thymeleaf.lesson3.repositories.ProductDetailRepository;
 import nbq.springboot.thymeleaf.lesson3.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +37,27 @@ public class ProductController {
         model.addAttribute("categories",categories);
     }
 
-    @RequestMapping("/products")
-    public String listProducts(Model model){
-        List<Product> listProducts = productRepo.findAll();
-        model.addAttribute("products", listProducts);
+    @RequestMapping({"/products","/products/page/{pageNumber}"})
+    public String listProducts(Model model, @PathVariable(required = false) Integer pageNumber,
+                               @RequestParam(required = false) String sortField,
+                               @RequestParam(required = false) String sortDir){
+        sortField = (sortField != null && !sortField.trim().isEmpty()) ? sortField : "name";
+        sortDir = (sortDir == null)? "asc" : (!sortDir.trim().equals("desc")) ? "asc" : "desc";
+        String reverseSortDir = (sortDir != null && sortDir.trim().equals("asc")) ? "desc" : "asc";
+        Sort sort = (sortDir.equals("asc")) ? Sort.by(Sort.Direction.ASC,sortField) : Sort.by(Sort.Direction.DESC,sortField);
+        pageNumber = (pageNumber != null && pageNumber > 0) ? pageNumber : 1;
+        Pageable pageable = PageRequest.of(pageNumber -1 ,6,sort);
+
+        Page<Product> productPage = productRepo.findAll(pageable);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("totalPages",productPage.getTotalPages());
+        model.addAttribute("totalItems",productPage.getTotalElements());
+        model.addAttribute("currentPage",pageNumber);
+        model.addAttribute("sortField",sortField);
+        model.addAttribute("sortDir",sortDir);
+        model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("dirPath","products");
         return "ListProducts";
 
     }
@@ -52,7 +73,7 @@ public class ProductController {
         String[] idDetails = request.getParameterValues("detailIDs");
         String[] nameDetails = request.getParameterValues("info");
         String[] valueDetails = request.getParameterValues("value");
-        if(nameDetails.length > 0 && valueDetails.length > 0){
+        if(nameDetails != null && nameDetails.length > 0 && valueDetails.length > 0){
             for (int i = 0; i < nameDetails.length ; i++) {
 
                 if (!nameDetails[i].trim().isEmpty() && !valueDetails[i].trim().isEmpty()) {
