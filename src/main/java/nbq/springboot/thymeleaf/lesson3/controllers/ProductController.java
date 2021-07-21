@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -105,6 +106,14 @@ public class ProductController {
     public String deleteProduct(@PathVariable("id") Integer id) {
         productRepo.deleteById(id);
         return "redirect:/products";
+    }
+
+    // Handling 401 error: Unauthorized - người dùng chưa đăng nhập nhưng truy cập vào tài nguyên mà người dùng cần phải là thành viên
+    //Note- (403 error: not authorized) - người dùng đã đăng nhập vào hệ thống nhưng truy cập vào tài nguyên mà người dùng không có quyền
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    public String handle401Exception(HttpClientErrorException.Unauthorized unauthorized) {
+        //do whatever you want
+        return "/error/401";
     }
 
 }
