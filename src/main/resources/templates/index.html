@@ -9,7 +9,7 @@
 <body>
 <div class="container text-center">
     <!--    Start menu-->
-    <div th:replace="layout/fragments :: html_menu"></div>
+    <div th:replace="layout/fragments :: menu"></div>
     <!--    End menu-->
     <div><h1>Welcome to Inventory App</h1></div>
     <div class="p-2">
@@ -18,11 +18,19 @@
     <div class="p-2">
         <a class="h2" th:href="@{/categories/new}">Create Category</a>
     </div>
+
     <div class="p-2">
         <a class="h2" th:href="@{/products}">List Products</a>
     </div>
     <div class="p-2">
         <a class="h2" th:href="@{/products/new}">Create Product</a>
+    </div>
+
+    <div class="p-2">
+        <a class="h2" th:href="@{/users}">List Users</a>
+    </div>
+    <div class="p-2">
+        <a class="h2" th:href="@{/user/new}">Create User</a>
     </div>
 
     <!--    Start footer-->
