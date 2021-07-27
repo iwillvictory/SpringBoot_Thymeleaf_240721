@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment="html_header">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:fragment="html_header(title)">
         <meta charset="UTF-8">
-        <title>Fragments</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        <title th:replace="${title}">Tiles</title>
+        <link th:remove="all" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        <script th:remove="all" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/font-awesome/css/all.css}"/>
-        <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     </head>
     <body>
         <div class="container">
             <div th:fragment="header"></div>
             <div th:fragment="banner"></div>
             <div th:fragment="body"></div>
-            <div th:fragment="footer"></div>
+
             <div th:fragment="html_menu">
                 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
                     <ul class="navbar-nav">
@@ -43,6 +43,12 @@
                             <a class="nav-link" href="#">page#</a>
                         </li>
                     </ul>
+                    <div class="text-light" sec:authorize="isAuthenticated()" >
+                        <form th:action="@{/logout}" method="post" class="form-inline">
+                            <label class="px-3">Wellcome, [[${#request.remoteUser}]]</label>
+                            <input type="submit" class="btn btn-secondary" value="Logout"/>
+                        </form>
+                    </div>
                 </nav>
             </div>
             <div th:fragment="search"></div>

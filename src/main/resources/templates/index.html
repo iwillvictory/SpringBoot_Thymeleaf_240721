@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/fragments :: html_header">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/fragments :: html_header(~{ :: title})">
     <meta charset="UTF-8">
     <title>Inventory Homepage</title>
-    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" href="" th:href="@{/webjars/fontawesome/css/all.css}"/>
 </head>
 <body>
 <div class="container text-center">
