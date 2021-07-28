@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/fragments::html_header">
+    <meta charset="UTF-8">
+    <title>${title}</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center" th:if="${user.id != null}" >Edit User [[${user.id}]]</h1>
+        <h1 class="text-center" th:unless="${user.id != null}" >Create New User</h1>
+        <br/><br/>
+
+        <form th:action="@{/users/save}" method="post" th:object="${user}">
+            <div class="row form-group">
+                <label class="col-sm-4 text-right font-weight-bold" for="name">Name:</label>
+                <input class="col-sm-5 form-control" type="text" th:field="*{name}"/>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-4 text-right font-weight-bold" for="password">Password:</label>
+                <input class="col-sm-5 form-control" type="text" th:field="*{password}"/>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-4 text-right font-weight-bold" for="email">Email:</label>
+                <input class="col-sm-5 form-control" type="text" th:field="*{email}"/>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 text-right" ></div>
+                <div class="col-sm-5">
+                    <div class="form-check pl-1">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:field="*{enabled}" /> Enabled
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-4 text-right font-weight-bold">  Roles:</label>
+                <div class="col-sm-6 pl-0">
+                    <div class="form-check-inline" th:each="role: ${rolesList}">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:field="*{roles}" th:value="${role.id}" /> [[${role.name}]]
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-sm-4" ></div>
+                <div class="col-sm-6">
+                    <input type="submit" value="Create" class="btn btn-primary mr-3">
+                    <input type="submit" value="Cancel" class="btn btn-secondary">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

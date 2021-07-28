@@ -42,7 +42,7 @@ public class UserController {
         String reverseSortDir = (sortDir != null && sortDir.trim().equals("asc")) ? "desc" : "asc";
         //prepare get page of User
         Sort sort = (sortDir.equals("asc")) ? Sort.by(Sort.Direction.ASC,sortField) : Sort.by(Sort.Direction.DESC,sortField);
-        Pageable pageable = PageRequest.of(pageNumber -1 ,1,sort);
+        Pageable pageable = PageRequest.of(pageNumber -1 ,5,sort);
         //get page of User
         Page<User> userPage = userRepo.findAll(pageable);
 
@@ -57,6 +57,22 @@ public class UserController {
         model.addAttribute("dirPath","users");
         return "user/UserManager";
 
+    }
+
+    // navigate to user form
+    @GetMapping("/users/new")
+    public String createUserForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("title","Create New User");
+        return "user/UserForm";
+    }
+
+    //Save user
+    @PostMapping("/users/save")
+    public String saveUser(User user){
+       userRepo.save(user);
+       return "redirect:/users";
     }
 
 }
