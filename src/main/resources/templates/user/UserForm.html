@@ -11,6 +11,7 @@
         <br/><br/>
 
         <form th:action="@{/users/save}" method="post" th:object="${user}">
+            <input type="hidden" th:field="*{id}"/>
             <div class="row form-group">
                 <label class="col-sm-4 text-right font-weight-bold" for="name">Name:</label>
                 <input class="col-sm-5 form-control" type="text" th:field="*{name}"/>
@@ -46,7 +47,8 @@
             <div class="row mt-4">
                 <div class="col-sm-4" ></div>
                 <div class="col-sm-6">
-                    <input type="submit" value="Create" class="btn btn-primary mr-3">
+                    <input th:unless="*{id}" type="submit" value="Create" class="btn btn-primary mr-3">
+                    <input th:if="*{id}" type="submit" value="Edit" class="btn btn-primary mr-3">
                     <input type="submit" value="Cancel" class="btn btn-secondary">
                 </div>
             </div>

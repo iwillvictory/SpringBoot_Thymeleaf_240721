@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -65,6 +66,19 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("title","Create New User");
+        return "user/UserForm";
+    }
+
+    // navigate to user form
+    @GetMapping("/users/edit/{id}")
+    public String editUserForm(@PathVariable Integer id, Model model) {
+        Optional<User> userOptional = userRepo.findById(id);
+        User user = new User();
+        if(userOptional.isPresent()){
+            user = userOptional.get();
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("title","Edit User");
         return "user/UserForm";
     }
 
