@@ -89,4 +89,14 @@ public class UserController {
        return "redirect:/users";
     }
 
+    //Delete User
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable("id") Integer id) {
+        boolean isUserExist = userRepo.existsById(id);
+        if(isUserExist){
+            userRepo.deleteById(id);
+        }
+        return "redirect:/users";
+    }
+
 }

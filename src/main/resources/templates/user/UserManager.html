@@ -11,7 +11,7 @@
     <div th:replace="layout/fragments :: menu">Header Static</div>
     <div>
         <h2>List Of Users</h2></div>
-        <a href=""> Creat new User</a> &nbsp;|&nbsp; <a href="">Export to CSV</a>
+        <a th:href="@{/users/new}"> Creat new User</a> &nbsp;|&nbsp; <a href="">Export to CSV</a>
     <div>
         <table class="table table-hover table-striped text-left">
             <thead class="thead-dark text-center">
