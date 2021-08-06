@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head th:fragment="html_header">
         <meta charset="UTF-8">
-        <title>Fragments</title>
+        <title th:if="${title}"> [[${title}]]</title>
+        <title th:unless="${title}">Inventory Manager</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
@@ -18,7 +19,7 @@
             <div th:fragment="banner"></div>
             <div th:fragment="body"></div>
             <div th:fragment="footer"></div>
-            <div th:fragment="html_menu">
+            <div th:fragment="menu">
                 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
                     <ul class="navbar-nav">
                         <li class="nav-item ">

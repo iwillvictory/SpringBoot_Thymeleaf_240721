@@ -42,15 +42,18 @@ public class ProductController {
     public String listProducts(Model model, @PathVariable(required = false) Integer pageNumber,
                                @RequestParam(required = false) String sortField,
                                @RequestParam(required = false) String sortDir){
+        // processing inputs for pagination
         sortField = (sortField != null && !sortField.trim().isEmpty()) ? sortField : "name";
         sortDir = (sortDir == null)? "asc" : (!sortDir.trim().equals("desc")) ? "asc" : "desc";
-        String reverseSortDir = (sortDir != null && sortDir.trim().equals("asc")) ? "desc" : "asc";
-        Sort sort = (sortDir.equals("asc")) ? Sort.by(Sort.Direction.ASC,sortField) : Sort.by(Sort.Direction.DESC,sortField);
         pageNumber = (pageNumber != null && pageNumber > 0) ? pageNumber : 1;
+        String reverseSortDir = (sortDir != null && sortDir.trim().equals("asc")) ? "desc" : "asc";
+        //prepare get page of Product
+        Sort sort = (sortDir.equals("asc")) ? Sort.by(Sort.Direction.ASC,sortField) : Sort.by(Sort.Direction.DESC,sortField);
         Pageable pageable = PageRequest.of(pageNumber -1 ,6,sort);
-
+        //get page of Product
         Page<Product> productPage = productRepo.findAll(pageable);
 
+        //send data to view
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("totalPages",productPage.getTotalPages());
         model.addAttribute("totalItems",productPage.getTotalElements());
