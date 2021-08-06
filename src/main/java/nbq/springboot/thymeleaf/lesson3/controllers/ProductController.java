@@ -62,14 +62,14 @@ public class ProductController {
         model.addAttribute("sortDir",sortDir);
         model.addAttribute("reverseSortDir", reverseSortDir);
         model.addAttribute("dirPath","products");
-        return "ListProducts";
+        return "product/ListProducts";
 
     }
 
     @GetMapping("/products/new")
     public String showCreateProductForm(Model model) {
         model.addAttribute("product",new Product());
-        return "productForm";
+        return "product/productForm";
     }
 
     @PostMapping("/products/save")
@@ -102,7 +102,7 @@ public class ProductController {
         } else {
             model.addAttribute("product",new Product());
         }
-        return "productForm";
+        return "product/productForm";
     }
 
     @GetMapping("/products/delete/{id}")
