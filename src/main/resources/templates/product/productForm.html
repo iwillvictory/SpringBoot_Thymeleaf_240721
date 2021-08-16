@@ -13,7 +13,7 @@
 
     <div th:if="${product.id == null}" class="text-center"><h1>Create New Product</h1></div>
     <div th:unless="${product.id == null}" class="text-center"><h1>Edit Product</h1></div>
-    <form th:action="@{/products/save}" method="post" th:object="${product}" style="max-width: 600px; margin: 0 auto;">
+    <form th:action="@{/products/save}" method="post" th:object="${product}" style="max-width: 600px; margin: 0 auto;" enctype="multipart/form-data">
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
@@ -99,26 +99,28 @@
 
             <!--  PICTURES PANE          -->
             <div class="tab-pane container fade" id="pictures">
-                <div class="row form-group text-center">
+                <div class="row form-group text-center mt-2 ">
                     <div class="col-sm-6 ">
-<!--                        <img style="width: 200px" src="fgh"  />-->
-                        <img id="thumbnail1"  width="200px" height="200px" src="" alt="Main Image">
+                        <img th:if="${product.id == null}" id="thumbnail1"  width="200px" height="200px" src="" alt="Main Image">
+                        <img th:unless="${product.id == null}" th:src="@{${product.mainImagePath}}" width="200px" height="200px" src="#" alt="Main Image"/>
                         <input class="form-control-file border" id="mainIMG" type="file" name="mainIMG"/>
                     </div>
                     <div class="col-sm-6">
-<!--                        <img style="width: 200px" src="fgh"  />-->
-                        <img id="thumbnail2"  width="200px" height="200px" src="" alt="Image 1">
-                        <input class="form-control-file border" id="secondImg1" type="file" name="secondaryIMG1"/>
+                        <img th:if="${product.id == null}" id="thumbnail2"  width="200px" height="200px" src="" alt="Extra Image 1">
+                        <img th:unless="${product.id == null}" th:src="@{${product.extraImage1Path}}" width="200px" height="200px" src="#" alt="Main Image"/>
+                        <input class="form-control-file border" id="secondImg1" type="file" name="extraIMG"/>
                     </div>
                 </div>
-                <div class="row form-group text-center">
+                <div class="row form-group text-center mt-2 ">
                     <div class="col-sm-6">
-                        <img id="thumbnail3" width="200px" height="200px" src="" alt="Image 2">
-                        <input class="form-control-file border" id="secondImg2" type="file" name="secondaryIMG2"/>
+                        <img th:if="${product.id == null}" id="thumbnail3"  width="200px" height="200px" src="" alt="Extra Image 2">
+                        <img th:unless="${product.id == null}" th:src="@{${product.extraImage2Path}}" width="200px" height="200px" src="#" alt="Main Image"/>
+                        <input class="form-control-file border" id="secondImg2" type="file" name="extraIMG"/>
                     </div>
                     <div class="col-sm-6">
-                        <img id="thumbnail4" width="200px" height="200px" src="" alt="Image 3">
-                        <input class="form-control-file border" id="secondImg3" type="file" name="secondaryIMG3"/>
+                        <img th:if="${product.id == null}" id="thumbnail4"  width="200px" height="200px" src="" alt="Extra Image 3">
+                        <img th:unless="${product.id == null}" th:src="@{${product.extraImage3Path}}" width="200px" height="200px" src="#" alt="Main Image"/>
+                        <input class="form-control-file border" id="secondImg3" type="file" name="extraIMG"/>
                     </div>
                 </div>
             </div>
@@ -128,10 +130,7 @@
             <label class="col-form-label col-sm-4"></label>
             <div class="col-sm-8 text-left">
                 <input type="submit" class="button btn-primary pr-3 mr-2" value="Save"/>
-                <input type="button" onclick="window.location.href='/products'" class="button btn-secondary"
-                       value="Cancel"/>
-                </button>
-
+                <input type="button" onclick="cancelCreateProduct()" class="button btn-secondary" value="Cancel"/>
             </div>
         </div>
 
@@ -142,7 +141,7 @@
     <!--     End Footer   -->
 
 </div>
-<script>
+<script th:inline="javascript">
     $(function(){
         $("#mainIMG").change(function () {
             showThumbnail(this,$("#thumbnail1"));
@@ -165,6 +164,11 @@
             img.attr("src", e.target.result);
         };
         reader.readAsDataURL(file);
+    }
+
+    function cancelCreateProduct() {
+        var str =/*[[${#request.getContextPath() + '/products'}]]*/ "";
+         window.location.href =str;
     }
 </script>
 

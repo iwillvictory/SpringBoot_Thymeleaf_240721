@@ -17,6 +17,7 @@
             <thead class="thead-dark text-center">
                 <tr>
                     <th>ID</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Category</th>
@@ -28,6 +29,9 @@
                 <th:block th:each="product : ${products}">
                     <tr>
                         <td>[[${product.id}]]</td>
+                        <td>
+                            <img th:src="@{${product.mainImagePath}}" width="100px" height="100px" src="#" alt="Main Image"/>
+                        </td>
                         <td>[[${product.name}]]</td>
                         <td class="text-right">[[${product.price}]]</td>
                         <td>[[${product.category.name}]]</td>

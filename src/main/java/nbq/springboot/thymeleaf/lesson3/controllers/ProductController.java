@@ -6,6 +6,7 @@ import nbq.springboot.thymeleaf.lesson3.models.ProductDetail;
 import nbq.springboot.thymeleaf.lesson3.repositories.CategoryRepository;
 import nbq.springboot.thymeleaf.lesson3.repositories.ProductDetailRepository;
 import nbq.springboot.thymeleaf.lesson3.repositories.ProductRepository;
+import nbq.springboot.thymeleaf.lesson3.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +77,15 @@ public class ProductController {
     }
 
     @PostMapping("/products/save")
-    public String createProduct(Product product, HttpServletRequest request) {
+    public String createProduct(Product product, HttpServletRequest request,
+                                @RequestParam("mainIMG") MultipartFile mainIMG,
+                                @RequestParam("extraIMG") MultipartFile[] extraIMG) throws IOException {
+        //validation for input if any
+
+        // for create new product
+        if(product.getId() == null) {product = productRepo.save(product);}
+
+        /*START -process details of Product*/
         String[] idDetails = request.getParameterValues("detailIDs");
         String[] nameDetails = request.getParameterValues("info");
         String[] valueDetails = request.getParameterValues("value");
@@ -89,6 +101,28 @@ public class ProductController {
                 }
             }
         }
+        /*END- process details of Product*/
+
+        /*START- process for images of product*/
+        String uploadDir = "./images/" + product.getCategory().getName() + "/" + product.getId();
+        // store main image for product
+        String mainImg = StringUtils.cleanPath(mainIMG.getOriginalFilename());
+        product.setMainImage(mainImg);
+        FileUtils.storeImgToFileSystem(uploadDir, mainIMG, mainImg);
+        // store extra images for product
+        int extraImgNumber = 1;
+        for (MultipartFile file : extraIMG) {
+            String extraImgName = StringUtils.cleanPath(file.getOriginalFilename());
+            switch (extraImgNumber) {
+                case 1: product.setExtraImage1(extraImgName); break;
+                case 2: product.setExtraImage2(extraImgName); break;
+                case 3: product.setExtraImage3(extraImgName);
+            }
+            extraImgNumber ++;
+            FileUtils.storeImgToFileSystem(uploadDir, file, extraImgName);
+        }
+
+        /*END- process for images of product*/
 
         productRepo.save(product);
         return "redirect:/products";
